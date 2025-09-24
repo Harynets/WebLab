@@ -1,12 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
-  images: {
-    unoptimized: true,
-  },
-  basePath: "/WebLab",
-  assetPrefix: "/WebLab/",
+  /* config options here */
 };
 
 export default nextConfig;
