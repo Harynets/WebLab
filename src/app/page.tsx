@@ -1,65 +1,50 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import ChosePlace from "./components/ChosePlace";
-import usePlaces from "./hooks/usePlaces";
-import useMap from "./hooks/useMap";
-import MainMap from "./components/MainMap";
+
+import TouristPlaceList from "./components/TouristPlaceList";
+import { useState } from "react";
+import { ThemeContext } from "./context/ThemeContext";
+import Welcome from "./components/Welcome";
+import UserInfo from "./components/UserInfo";
+import AdultCheck from "./components/AdultCheck";
+import { UserContext } from "./context/UserContext";
+import { ListContext } from "./context/ListContext";
 
 export default function Home() {
-    const [map, setMap] = useMap(<div>Карта завантажується...</div>);
+    const [theme, setTheme] = useState("light");
 
-    const [places, setPlaces] = useState<string[]>([]);
-    const [currentPlace, setCurrentPlace] = usePlaces("");
+    const listValue = [
+        {
+            placeName: "Колізей",
+            countryName: "Італія",
+            description: "Одне з 7 Нових чудес світу, античний амфітеатр, велич у “Вічному місті”.",
+        },
+        { placeName: "Ейфелева Вежа", countryName: "Франція", description: "Унікальна споруда, символ міста закоханих." },
+    ];
 
-    useEffect(() => {
-        setPlaces(["Київ", "Миколаїв", "Львів"]);
-    }, []);
-
-    useEffect(() => {
-        if (currentPlace) {
-            if (currentPlace === "Миколаїв") {
-                setMap(
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d53608.19604780603!2d32.02783002635671!3d46.96255471039648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1suk!2sua!4v1758913156144!5m2!1suk!2sua"
-                        width="800"
-                        height="600"
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                    ></iframe>
-                );
-            }
-            if (currentPlace === "Київ") {
-                setMap(
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d122438.29025109713!2d30.52741074286496!3d50.4529094600173!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1suk!2sua!4v1758913206964!5m2!1suk!2sua"
-                        width="800"
-                        height="600"
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                    ></iframe>
-                );
-            }
-            if (currentPlace === "Львів") {
-                setMap(
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d45133.84847280888!2d24.032788230576767!3d49.83759149694948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1suk!2sua!4v1758913236124!5m2!1suk!2sua"
-                        width="800"
-                        height="600"
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                    ></iframe>
-                );
-            }
-        }
-    }, [currentPlace]);
+    const userValue = { name: "Пес Патрон", age: 6, email: "pesPatron@gmail.com" };
 
     return (
-        <>
-            <ChosePlace places={places} setPlace={setCurrentPlace} currentPlace={currentPlace} />
-            <MainMap map={map} setMap={setMap} />
-        </>
+        <ThemeContext.Provider value={theme}>
+            <UserContext.Provider value={userValue}>
+                <ListContext.Provider value={listValue}>
+                    <div>
+                        <div className="flex items-center flex-col">
+                            <TouristPlaceList />
+                            <div>
+                                <button
+                                    className="cursor-pointer hover:bg-green-300 active:scale-95 rounded-md p-2 mt-3 shadow-sm bg-green-400"
+                                    onClick={() => (theme === "light" ? setTheme("dark") : setTheme("light"))}
+                                >
+                                    {theme}
+                                </button>
+                                <Welcome />
+                                <UserInfo />
+                                <AdultCheck />
+                            </div>
+                        </div>
+                    </div>
+                </ListContext.Provider>
+            </UserContext.Provider>
+        </ThemeContext.Provider>
     );
 }
