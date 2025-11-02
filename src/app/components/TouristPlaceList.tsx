@@ -5,7 +5,7 @@ import { ListContext } from "../context/ListContext";
 function TouristPlaceList() {
     const touristPlaces = useContext(ListContext);
     return (
-        <div className="rounded-lg m-1 w-1/4">
+        <div className=" m-1 w-1/4">
             {touristPlaces.map((elem, index) => {
                 return (
                     <TouristPlace
