@@ -1,22 +1,24 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../lib/store";
 import TouristPlace from "./TouristPlace";
-import { ListContext } from "../context/ListContext";
 
 function TouristPlaceList() {
-    const touristPlaces = useContext(ListContext);
+    const places = useSelector((state: RootState) => state.touristPlace.places);
     return (
-        <div className=" m-1 w-1/4">
-            {touristPlaces.map((elem, index) => {
+        <>
+            {places.map((place, index) => {
                 return (
                     <TouristPlace
-                        placeName={elem.placeName}
-                        description={elem.description}
-                        countryName={elem.countryName}
                         key={index}
+                        name={place.name}
+                        description={place.description}
+                        photo={place.photo}
+                        index={index}
                     />
                 );
             })}
-        </div>
+        </>
     );
 }
 

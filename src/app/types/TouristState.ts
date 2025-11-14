@@ -1,0 +1,3 @@
+interface TouristState {
+    places: TouristPlace[];
+}

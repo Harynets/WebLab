@@ -1,6 +1,5 @@
-interface TouristPlaceProps {
+interface TouristPlace {
     name: string;
     description: string;
     photo: string;
-    index: number;
 }
